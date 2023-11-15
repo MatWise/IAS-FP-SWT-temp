@@ -1,0 +1,68 @@
+{
+    "name": "ROS 2 Development Container",
+    "privileged": true,
+    "build": {
+        "dockerfile": "../../Dockerfile",
+        "args": {
+            "WORKSPACE": "${containerWorkspaceFolder}"
+        }
+    },
+    "workspaceFolder": "/home/ws",
+    "workspaceMount": "src=${localWorkspaceFolder},dst=${containerWorkspaceFolder},type=bind",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "telemetry.telemetryLevel": "off",
+                "source.organizeImports": true,
+                "[python]": {
+                    "editor.formatOnSave": true,
+                    "editor.codeActionsOnSave": [
+                        "source.organizeImports"
+                    ]
+                }
+            },
+            "extensions": [
+                "althack.ament-task-provider",
+                "DotJoshJohnson.xml",
+                "ms-azuretools.vscode-docker",
+                "ms-python.python",
+                "ms-python.black-formatter",
+                "ms-python.isort",
+                "ms-vscode.cpptools",
+                "twxs.cmake",
+                "eamodio.gitlens",
+                "leonhard-s.python-sphinx-highlight",
+                "redhat.vscode-yaml",
+                "yzhang.markdown-all-in-one",
+                "zachflower.uncrustify",
+                "streetsidesoftware.code-spell-checker",
+                "gruntfuggly.todo-tree",
+                "ms-iot.vscode-ros",
+                "smilerobotics.urdf",
+                "usernamehw.errorlens",
+                "TakumiI.markdowntable"
+            ]
+        }
+    },
+    "containerEnv": {
+        "DISPLAY": ":0",
+        "PULSE_SERVER": "/tmp/PulseServer",
+        "ROS_DOMAIN_ID": "1",
+        "LIBGL_ALWAYS_SOFTWARE": "1" // Needed for software rendering of opengl
+    },
+    "runArgs": [
+        "--net=host", // network access to host interfaces, e.g. eth0
+        "--ipc=host",
+        // "--pid=host", // DDS discovery with host, without --network=host
+        "--cap-add=SYS_PTRACE", // enable debugging, e.g. gdb
+        "--security-opt=seccomp=unconfined" // enable debugging, e.g. gdb
+    ],
+    "mounts": [
+        // "source=\\\\wsl.localhost\\Ubuntu\\mnt\\wslg\\.X11-unix,target=/tmp/.X11-unix,type=bind", // Using wsl2 x11 server, change if wsl varys
+        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
+        "source=/dev/dri,target=/dev/dri,type=bind,consistency=cached",
+        "source=/dev/shm,target=/dev/shm,type=bind,consistency=cached"
+    ],
+    "postCreateCommand": "sudo bash /bin/postCreate.sh",
+    "postStartCommand": "sudo bash /bin/postStart.sh"
+}
