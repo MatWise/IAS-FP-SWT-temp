@@ -5,7 +5,7 @@
 import os
 import sys
 
-import mock
+# import mock
 
 # MOCK_MODULES = [
 #     "sopias4_msgs.srv",
