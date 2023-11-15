@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
       - name: Install dependencies
-        run: git clone https://github.com/ros-infrastructure/rosdoc2 && pip3 install -e rosdoc2
+        run: git clone https://github.com/ros-infrastructure/rosdoc2 && pip3 install -e rosdoc2 && sudo apt update && sudo apt install doxygen
       - name: Rosdoc2 build
         run: rosdoc2 build -p src/sopias4_framework -o _build
       - name: Deploy
